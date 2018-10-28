@@ -1,0 +1,21 @@
+*
+{
+  color: #fff;
+  font-size: 28px;
+  font-weight: 300;
+  box-sizing: border-box;
+  font-family: 'Metrophobic', Arial, serif; font-weight: 400;
+}
+
+body
+{
+  background-color: #93CFFF;
+  padding: 50px;
+}
+
+h1
+{
+  font-size: 18px;
+  font-weight: 200;
+  color: #ff0000;
+}
