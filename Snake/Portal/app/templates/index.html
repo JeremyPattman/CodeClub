@@ -8,8 +8,20 @@
     <div class="wrapper">
       <div class="box header">Header</div>
       <div class="box sidebar">Sidebar</div>
-      <div class="box content">Content
-        <br> box contents goes here </br>
+      <div class="box content">
+        <canvas class="canvas" id="myCanvas"></canvas>
+        <script>
+          var canvas = document.getElementById('myCanvas');
+          var context = canvas.getContext('2d');
+
+          context.beginPath();
+          context.moveTo(0, 0);
+          context.lineTo(0, 150);
+          context.lineTo(300, 150);
+          context.lineTo(300, 0);
+          context.lineTo(0, 0);
+          context.stroke();
+        </script>
       </div>
       <div class="box footer">Footer</div>
     </div>

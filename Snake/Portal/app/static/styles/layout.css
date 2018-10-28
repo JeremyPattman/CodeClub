@@ -19,6 +19,11 @@ body {
   grid-area: footer;
 }
 
+.canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
 .wrapper {
         display: grid;
         grid-gap: 10px;
