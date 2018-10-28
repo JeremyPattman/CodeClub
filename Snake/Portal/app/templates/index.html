@@ -1,8 +1,17 @@
 <html>
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/layout.css') }}">
+
   <head>
     <title>Coding Challeng Portal MVP</title>
   </head>
   <body>
-    <h1>This will be the main page of the portal</h>
+    <div class="wrapper">
+      <div class="box header">Header</div>
+      <div class="box sidebar">Sidebar</div>
+      <div class="box content">Content
+        <br> box contents goes here </br>
+      </div>
+      <div class="box footer">Footer</div>
+    </div>
   </body>
 </html>
