@@ -21,6 +21,12 @@
           context.lineTo(300, 0);
           context.lineTo(0, 0);
           context.stroke();
+
+          {% for sq in squares %}
+            context.fillStyle="{{ sq.fillStyle }}";
+            context.fillRect({{ sq.x }},{{ sq.y }},{{ sq.len }},{{ sq.len }});
+          {% endfor %}
+
         </script>
       </div>
       <div class="box footer">Footer</div>
