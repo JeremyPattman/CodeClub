@@ -1,25 +1,29 @@
 from flask import Flask, request, render_template
 
-
-
+BLOCK_SIZE = 5
+PLAY_AREA_WIDTH = 60
+PLAY_AREA_HEIGHT= 30
 
 app = Flask(__name__)
 
-def addSquare(squares, x,y,type):
+def addSquare(squares,x,y,len,type):
     sq = {}
-    sq.update( {'x' : x} )
-    sq.update( {'y' : y} )
-    sq.update( {'len' : 10} )
+    sq.update( {'x' : x*len} )
+    sq.update( {'y' : y*len} )
+    sq.update( {'len' : len} )
     sq.update( {'fillStyle': '#01786F'} )
     squares.append(sq)
+
+def createPlayArea(squares):
+    for y in range(PLAY_AREA_HEIGHT):
+        for x in range(PLAY_AREA_WIDTH):
+            addSquare(squares,x,y,BLOCK_SIZE,1)
 
 @app.route('/', methods=['GET', 'POST'])
 def mainpage():
 
     squares=[]
-    addSquare(squares,0,0,1)
-    addSquare(squares,10,0,1)
-    addSquare(squares,30,0,1)
+    createPlayArea(squares)
 
     return render_template('index.html', squares=squares)
 
