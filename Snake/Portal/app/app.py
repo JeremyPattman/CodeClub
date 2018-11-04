@@ -1,4 +1,9 @@
 from flask import Flask, request, render_template
+import random
+
+# currently using <meta http-equiv="refresh" content="5"> in the html header to
+# force a refresh from the client.  My look better if I use async updates instead
+# https://www.shanelynn.ie/asynchronous-updates-to-a-webpage-with-flask-and-socket-io/
 
 BLOCK_SIZE = 5
 PLAY_AREA_WIDTH = 60
@@ -13,16 +18,22 @@ def addSquare(squares,x,y,len,type):
     sq.update( {'len' : len} )
     if type == 1:
         sq.update( {'fillStyle': '#BF4F51'} )
+    elif type == 2.0:
+        sq.update( {'fillStyle': '#FFEB00'} )
     else:
         sq.update( {'fillStyle': '#01786F'} )
 
     squares.append(sq)
 
-def createPlayArea(squares):
+
+def createPlayAreaDisplay(squares):
     for y in range(PLAY_AREA_HEIGHT):
         for x in range(PLAY_AREA_WIDTH):
             if x==0 or x==(PLAY_AREA_WIDTH-1) or y==0 or y==(PLAY_AREA_HEIGHT-1):
                 addSquare(squares,x,y,BLOCK_SIZE,1)
+            elif random.randint(0,2) == 0:
+                # place holder to add the snakes to the play area
+                addSquare(squares,x,y,BLOCK_SIZE,2.0)
             else:
                 addSquare(squares,x,y,BLOCK_SIZE,0)
 
@@ -30,8 +41,7 @@ def createPlayArea(squares):
 def mainpage():
 
     displaySquares=[]
-    createPlayArea(displaySquares)
-
+    createPlayAreaDisplay(displaySquares)
     return render_template('index.html', squares=displaySquares)
 
 if __name__ == '__main__':
