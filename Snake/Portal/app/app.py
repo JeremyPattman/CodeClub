@@ -59,8 +59,12 @@ def moveSnake(snakeID, gameBoard):
 ################################################################################
 gameBoardMemoryMap = [[0.0 for y in range(PLAY_AREA_HEIGHT)] for x in range(PLAY_AREA_WIDTH)]
 growCount = 0
-snake1 = [(25,25),(26,24),(27,24),(28,24),(28,23)]
-snake2 = [(30,25),(29,25),(29,26),(28,26),(28,27)]
+snakes = [
+            [(25,4),(26,4),(27,4),(28,4),(28,3)],
+            [(30,10),(29,10),(28,10),(27,10),(26,10)],
+            [(5,25),(6,25),(7,25),(8,25),(9,25)],
+            [(30,25),(29,25),(28,25),(27,25),(26,25)]
+         ]
 
 def updateGameBoardMemoryMap():
     global growCount
@@ -70,18 +74,12 @@ def updateGameBoardMemoryMap():
         growCount = 0;
         grow = True
 
-    # determine how to move each snake
-    xOffset, yOffset = moveSnake(2.0, gameBoardMemoryMap)
-    if(xOffset!=0 or yOffset!=0):
-        snake1.insert(0,(snake1[0][0]+xOffset,snake1[0][1]+yOffset))
-        if not grow:
-            snake1.pop()
-
-    xOffset, yOffset = moveSnake(3.0, gameBoardMemoryMap)
-    if(xOffset!=0 or yOffset!=0):
-        snake2.insert(0,(snake2[0][0]+xOffset,snake2[0][1]+yOffset))
-        if not grow:
-            snake2.pop()
+    for s in range(len(snakes)):
+        xOffset, yOffset = moveSnake(2.0 + s, gameBoardMemoryMap)
+        if(xOffset!=0 or yOffset!=0):
+            snakes[s].insert(0,(snakes[s][0][0]+xOffset,snakes[s][0][1]+yOffset))
+            if not grow:
+                snakes[s].pop()
 
     # reset the game board memory map
     for y in range(PLAY_AREA_HEIGHT):
@@ -92,17 +90,12 @@ def updateGameBoardMemoryMap():
                 gameBoardMemoryMap[x][y] = 0.0
 
     # add the snakes back in
-    for s in range(len(snake1)):
-        if s==0:
-            gameBoardMemoryMap[snake1[s][0]][snake1[s][1]] = 2.1
-        else:
-            gameBoardMemoryMap[snake1[s][0]][snake1[s][1]] = 2.0
-
-    for s in range(len(snake2)):
-        if s==0:
-            gameBoardMemoryMap[snake2[s][0]][snake2[s][1]] = 3.1
-        else:
-            gameBoardMemoryMap[snake2[s][0]][snake2[s][1]] = 3.0
+    for s in range(len(snakes)):
+        for b in range(len(snakes[s])):
+            if b==0:
+                gameBoardMemoryMap[snakes[s][b][0]][snakes[s][b][1]] = 2.1 + s
+            else:
+                gameBoardMemoryMap[snakes[s][b][0]][snakes[s][b][1]] = 2.0 + s
 
 ################################################################################
 # Code in this section is for converting the in-memory game board into a
@@ -125,6 +118,14 @@ def addSquare(squares,x,y,len,type):
         sq.update( {'fillStyle': '#2243B6'} )
     elif type == 3.0:
         sq.update( {'fillStyle': '#50BFE6'} )
+    elif type == 4.1:
+        sq.update( {'fillStyle': '#FFDB00'} )
+    elif type == 4.0:
+        sq.update( {'fillStyle': '#FAFA37'} )
+    elif type == 5.1:
+        sq.update( {'fillStyle': '#5E8C31'} )
+    elif type == 5.0:
+        sq.update( {'fillStyle': '#87FF2A'} )
     else:
         sq.update( {'fillStyle': '#01786F'} )
 
