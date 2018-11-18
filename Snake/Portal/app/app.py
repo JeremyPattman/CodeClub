@@ -11,6 +11,21 @@ PLAY_AREA_HEIGHT= 30
 
 app = Flask(__name__)
 
+gameBoardMemoryMap = [[0.0 for y in range(PLAY_AREA_HEIGHT)] for x in range(PLAY_AREA_WIDTH)]
+
+
+# manage the memory map for the game board and the pieces on it
+def createGameBoardMemoryMap():
+    for y in range(PLAY_AREA_HEIGHT):
+        for x in range(PLAY_AREA_WIDTH):
+            if x==0 or x==(PLAY_AREA_WIDTH-1) or y==0 or y==(PLAY_AREA_HEIGHT-1):
+                gameBoardMemoryMap[x][y] = 1.0
+            elif random.randint(0,2) == 0:
+                gameBoardMemoryMap[x][y] = 2.0
+            else:
+                gameBoardMemoryMap[x][y] = 0.0
+
+# add a square to the display board
 def addSquare(squares,x,y,len,type):
     sq = {}
     sq.update( {'x' : x*len} )
@@ -25,23 +40,20 @@ def addSquare(squares,x,y,len,type):
 
     squares.append(sq)
 
-
-def createPlayAreaDisplay(squares):
+# create the display for the game board
+def createGameBoardDisplayMap(gameBoard, squares):
     for y in range(PLAY_AREA_HEIGHT):
         for x in range(PLAY_AREA_WIDTH):
-            if x==0 or x==(PLAY_AREA_WIDTH-1) or y==0 or y==(PLAY_AREA_HEIGHT-1):
-                addSquare(squares,x,y,BLOCK_SIZE,1)
-            elif random.randint(0,2) == 0:
-                # place holder to add the snakes to the play area
-                addSquare(squares,x,y,BLOCK_SIZE,2.0)
-            else:
-                addSquare(squares,x,y,BLOCK_SIZE,0)
+            addSquare(squares,x,y,BLOCK_SIZE,gameBoard[x][y])
 
+# generate the display game board and that will be passed to the Django Code
+# to generate the front end in browser
 @app.route('/', methods=['GET', 'POST'])
 def mainpage():
 
     displaySquares=[]
-    createPlayAreaDisplay(displaySquares)
+    createGameBoardMemoryMap()
+    createGameBoardDisplayMap(gameBoardMemoryMap, displaySquares)
     return render_template('index.html', squares=displaySquares)
 
 if __name__ == '__main__':
