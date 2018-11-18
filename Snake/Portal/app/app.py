@@ -62,7 +62,9 @@ growCount = 0
 snakes = [
             [(25,4),(26,4),(27,4),(28,4),(28,3)],
             [(30,10),(29,10),(28,10),(27,10),(26,10)],
-            [(5,25),(6,25),(7,25),(8,25),(9,25)],
+            [(5,15),(6,15),(7,15),(8,15),(9,15)],
+            [(25,19),(26,19),(27,19),(28,19),(29,19)],
+            [(2,15),(2,14),(2,13),(2,12),(2,11)],
             [(30,25),(29,25),(28,25),(27,25),(26,25)]
          ]
 
@@ -126,8 +128,16 @@ def addSquare(squares,x,y,len,type):
         sq.update( {'fillStyle': '#5E8C31'} )
     elif type == 5.0:
         sq.update( {'fillStyle': '#87FF2A'} )
+    elif type == 6.1:
+        sq.update( {'fillStyle': '#EE34D2'} )
+    elif type == 6.0:
+        sq.update( {'fillStyle': '#FF6EFF'} )
+    elif type == 7.1:
+        sq.update( {'fillStyle': '#A83731'} )
+    elif type == 7.0:
+        sq.update( {'fillStyle': '#AF6E4D'} )
     else:
-        sq.update( {'fillStyle': '#01786F'} )
+        sq.update( {'fillStyle': '#BBBBBB'} )
 
     squares.append(sq)
 
