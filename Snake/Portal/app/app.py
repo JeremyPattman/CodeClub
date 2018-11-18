@@ -8,11 +8,10 @@ import random
 BLOCK_SIZE = 5
 PLAY_AREA_WIDTH = 60
 PLAY_AREA_HEIGHT= 30
+GROW_FREQUENCY = 3
+
 
 app = Flask(__name__)
-
-snake1 = [(5,5),(6,5),(7,5),(7,6),(7,7)]
-snake2 = [(30,25),(29,25),(29,26),(28,26),(28,27)]
 
 ################################################################################
 # Code in this section is for the player AI. This will eventually sit in
@@ -36,21 +35,53 @@ def findHead(snakeID, gameBoard):
             if(gameBoard[x][y] == (snakeID+0.1)):
                 return x,y
 
+    return -1,-1
+
 def moveSnake(snakeID, gameBoard):
     # simple test algo to just move the snake
-    snakeX, snakeY = findHead(snakeID,gameBoard)    
+    snakeX, snakeY = findHead(snakeID,gameBoard)
+
+    if(snakeX != -1 and snakeY != -1):
+        if(gameBoard[snakeX+1][snakeY] == 0.0):
+            return 1,0
+        elif(gameBoard[snakeX-1][snakeY] == 0.0):
+            return -1,0
+        elif(gameBoard[snakeX][snakeY+1] == 0.0):
+            return 0,1
+        else:
+            return 0,-1
+    else:
+        return 0,0
 
 
 ################################################################################
 # Code in this section is for managing the game board and the players in memory
 ################################################################################
 gameBoardMemoryMap = [[0.0 for y in range(PLAY_AREA_HEIGHT)] for x in range(PLAY_AREA_WIDTH)]
+growCount = 0
+snake1 = [(25,25),(26,24),(27,24),(28,24),(28,23)]
+snake2 = [(30,25),(29,25),(29,26),(28,26),(28,27)]
 
 def updateGameBoardMemoryMap():
+    global growCount
+    growCount = growCount + 1
+    grow = False
+    if growCount == GROW_FREQUENCY:
+        growCount = 0;
+        grow = True
 
     # determine how to move each snake
-    #moveSnake(2.0, gameBoardMemoryMap)
-    #moveSnake(3.0, gameBoardMemoryMap)
+    xOffset, yOffset = moveSnake(2.0, gameBoardMemoryMap)
+    if(xOffset!=0 or yOffset!=0):
+        snake1.insert(0,(snake1[0][0]+xOffset,snake1[0][1]+yOffset))
+        if not grow:
+            snake1.pop()
+
+    xOffset, yOffset = moveSnake(3.0, gameBoardMemoryMap)
+    if(xOffset!=0 or yOffset!=0):
+        snake2.insert(0,(snake2[0][0]+xOffset,snake2[0][1]+yOffset))
+        if not grow:
+            snake2.pop()
 
     # reset the game board memory map
     for y in range(PLAY_AREA_HEIGHT):
@@ -85,7 +116,7 @@ def addSquare(squares,x,y,len,type):
     sq.update( {'y' : y*len} )
     sq.update( {'len' : len} )
     if type == 1.0:
-        sq.update( {'fillStyle': '#BF4F51'} )
+        sq.update( {'fillStyle': '#000000'} )
     elif type == 2.1:
         sq.update( {'fillStyle': '#FD0E35'} )
     elif type == 2.0:

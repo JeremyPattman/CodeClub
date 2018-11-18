@@ -3,7 +3,7 @@
 
   <head>
     <title>Coding Challeng Portal MVP</title>
-    <meta http-equiv="refresh" content="3">
+    <meta http-equiv="refresh" content="1">
   </head>
   <body>
     <div class="wrapper">
@@ -25,7 +25,7 @@
 
           {% for sq in squares %}
             context.fillStyle="{{ sq.fillStyle }}";
-            context.fillRect({{ sq.x }},{{ sq.y }},{{ sq.len }},{{ sq.len }});
+            context.fillRect({{ sq.x }},{{ sq.y }},{{ sq.len - 1 }},{{ sq.len - 1 }});
           {% endfor %}
 
         </script>
